@@ -25,7 +25,7 @@ below is the code of the whole pipeline ------>
         stage('Git Clone') {
             steps {
                 echo 'Cloning from Git...'
-                checkout scmGit(branches: [[name: '*/master']], extensions: [],
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Ashwinid31/nodepipeline.git']])  // this is the script which we have generated through pipeline syntax for version control
             }
         }
 
