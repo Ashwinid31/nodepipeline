@@ -23,7 +23,7 @@ pipeline {
         stage('Git Clone') {
             steps {
                 echo 'Cloning from Git...'
-                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/vitthala-27/nodepipeline.git']])  // this is the script which we have generated through pipeline syntax for version control
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], 
             }
         }
 
@@ -50,7 +50,7 @@ pipeline {
                         sh '''
                         ssh -o StrictHostKeyChecking=no ubuntu@3.92.192.219 << EOF   // here we given the public ip of the deployment server
                         cd /home/ubuntu/mynodeapp || { echo "Deployment directory does not exist. Exiting..."; exit 1; }
-                        git pull --rebase https://github.com/vitthala-27/nodepipeline.git     // the repository link from where we have to push the code (means our code is  already on that repository)
+                        git pull --rebase https://github.com/Ashwinid31/nodepipeline.git     // the repository link from where we have to push the code (means our code is  already on that repository)
                         npm install
                         sudo npm install -g pm2
                         pm2 restart index.js || pm2 start index.js
