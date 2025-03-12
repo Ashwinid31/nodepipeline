@@ -26,21 +26,18 @@ pipeline {
                 checkout scmGit(branches: [[name: '*/master']], extensions: [], 
             }
         }
-
         stage('Build') {
             steps {
                 echo 'Building Node.js project...'
                 sh 'npm install'
             }
         }
-
         stage('Test') {
             steps {
                 echo 'Testing Node.js project...'
                 sh './node_modules/mocha/bin/_mocha --exit ./test/test.js'
             }
         }
-
         stage('Deploy') {
             steps {
                 echo 'Deploying to the server...'
@@ -57,8 +54,6 @@ pipeline {
                         exit
                         EOF
                         '''
-
-                
                     }
                 }
             }
