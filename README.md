@@ -14,30 +14,35 @@ Now create a pipeline give name and description ---- Build Triggers ----> Github
 
 below is the code of the whole pipeline ------>
 
-pipeline {
+
+       
+       pipeline {
     agent any     // it means if we are deploying the code of the available server (jenkins works on master and slave architecture)
     tools {
         nodejs 'mynode'  // Node.js installation configured in Jenkins (this is the tool of nodejs and we enterred the name of it that we are given to it earlier)
-    }
+      }
     stages {
         stage('Git Clone') {
             steps {
                 echo 'Cloning from Git...'
-                checkout scmGit(branches: [[name: '*/master']], extensions: [], 
+                checkout scmGit(branches: [[name: '*/master']], extensions: [],
             }
         }
-        stage('Build') {
+
+       stage('Build') {
             steps {
                 echo 'Building Node.js project...'
                 sh 'npm install'
             }
         }
+
         stage('Test') {
             steps {
                 echo 'Testing Node.js project...'
                 sh './node_modules/mocha/bin/_mocha --exit ./test/test.js'
             }
         }
+
         stage('Deploy') {
             steps {
                 echo 'Deploying to the server...'
@@ -47,13 +52,15 @@ pipeline {
                         sh '''
                         ssh -o StrictHostKeyChecking=no ubuntu@3.92.192.219 << EOF   // here we given the public ip of the deployment server
                         cd /home/ubuntu/mynodeapp || { echo "Deployment directory does not exist. Exiting..."; exit 1; }
-                        git pull --rebase https://github.com/Ashwinid31/nodepipeline.git     // the repository link from where we have to push the code (means our code is  already on that repository)
+                        git pull --rebase https://github.com/vitthala-27/nodepipeline.git     // the repository link from where we have to push the code (means our code is  already on that repository)
                         npm install
                         sudo npm install -g pm2
                         pm2 restart index.js || pm2 start index.js
                         exit
                         EOF
                         '''
+
+                
                     }
                 }
             }
